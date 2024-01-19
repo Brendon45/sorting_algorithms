@@ -1,81 +1,77 @@
 #include "sort.h"
-void givenchy(void);
 
 /**
- * counting_sort - A function that sorts an array of integers
- * using Counting sort algorithm
+ * swap_nodes - A function that swaps two nodes in a doubly linked list.
  *
- * @array: An array of integers to be sorted
- * @size: Size of the array to be sorted
+ * @list: A pointer to the doubly linked list
+ * @node_a: The first node to swap
+ * @node_b: The second node to swap
  */
-void counting_sort(int *array, size_t size)
+void swap_nodes(listint_t **list, listint_t *node_a, listint_t *node_b)
 {
-	int *duplicate, *count;
-	unsigned int maximum, a, tmp;
+	listint_t *tmp_prev_a, *tmp_next_a;
 
-	/* Check if the array is valid for sorting */
-	if (array == NULL || size < 2)
+	/* Store the previous and next nodes of the first node */
+	tmp_prev_a = node_a->prev;
+	tmp_next_a = node_a->next;
+
+	/* Update the next pointer of the previous node of node_a or the list head */
+	if (tmp_prev_a)
+	tmp_prev_a->next = node_b;
+	else
+	*list = node_b;
+	/* Update the previous and next pointers of node_b */
+	node_b->prev = tmp_prev_a;
+	node_b->next = node_a;
+	/* Update the previous and next pointers of node_a */
+	node_a->prev = node_b;
+	node_a->next = node_b->next;
+
+	/* Update the previous pointer of the next node of node_a */
+	if (tmp_next_a)
+	tmp_next_a->prev = node_a;
+}
+/**
+ * cocktail_sort_list - A function that sorts a doubly linked list
+ * using the Cocktail Shaker Sort algorithm.
+ *
+ * @list: A pointer to the doubly linked list.
+ */
+void cocktail_sort_list(listint_t **list)
+{
+	int swap;
+	listint_t *currnt;
+
+	/* Check if the list is valid and has more than one element */
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
 	return;
-	/* Find the maximum value in the array */
-	a = 0;
-	maximum = 0;
-	while (a < size)
+
+	do {
+	swap = 0;
+	/* Iterate forward through the list, swapping nodes as needed */
+	for (currnt = *list; currnt->next != NULL; currnt = currnt->next)
 	{
-	if (array[a] > (int)maximum)
-		maximum = array[a];
-		a++;
+		if (currnt->n > currnt->next->n)
+		{
+		swap_nodes(list, currnt, currnt->next);
+		print_list(*list);
+		swap = 1;
+		}
 	}
-	maximum++;
-	/* Allocate memory for the counting array and a copy of the original array */
-	count = malloc(maimum * sizeof(int));
-	if (count == NULL)
-	return;
-	duplicate = malloc(size * sizeof(int));
-	if (duplicate == NULL)
+	/* If no swaps were made, the list is sorted, exit the loop */
+	if (!swap)
+		break;
+
+	swap = 0;
+	/* Iterate backward through the list, swapping nodes as needed */
+	for (; currnt->prev != NULL; currnt = currnt->prev)
 	{
-		free(count);
-		return;
+		if (currnt->n < currnt->prev->n)
+		{
+		swap_nodes(list, currnt->prev, currnt);
+		print_list(*list);
+		swap = 1;
+		}
 	}
-	/* Copy the elements of the original array to a copy array */
-	a = 0;
-	while (a < size)
-	{
-		duplicate[a] = array[a];
-		a++;/*Incrementing*/
-	}
-	/* Initialize counting array elements to zero */
-	a = 0;
-	while (a < maximum)
-	{
-		counting[a] = 0;
-		a++;
-	}
-	/* Count the occurrences of each element in the original array */
-	a = 0;
-	while (a < size)
-	{
-		count[array[a]]++;
-		a++;
-	}
-	/* Modify the count array to store the cumulative count of elements */
-	a = 1;
-	while (a < maximum)
-	{
-		count[a] += count[a - 1];
-		a++;
-	}
-	/* Print the count array after counting occurrences */
-	print_array(count, maximum);
-	/* Use the counting array to sort the elements in the original array */
-	a = 0;
-	while (a < size)
-	{
-		tmp = duplicate[a];
-		array[count[tmp] - 1] = tmp;
-		coun[tmp]--;
-		a++;
-	}
-	/* Free the allocated memory for counting and duplicate arrays */
-	free(count);
-	free(duplicate);
+	} while (swap);
 }
