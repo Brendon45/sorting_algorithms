@@ -38,5 +38,8 @@ void shell_sort(int *array, size_t size);
 void cocktail_sort_list(listint_t **list);
 void swap_nodes(listint_t **list, listint_t *node_a, listint_t *node_b);
 void counting_sort(int *array, size_t size);
+int getMax(int *array, size_t size);
+void countSort(int *array, size_t size, int exp);
+void radix_sort(int *array, size_t size);
 
 #endif /*Sorting algorithms*/
