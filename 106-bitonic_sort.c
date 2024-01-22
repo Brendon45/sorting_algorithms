@@ -1,7 +1,7 @@
 #include "sort.h"
 
 /**
- * bitonic_sort_recursive - A function that recursively sorts a bitonic 
+ * bitonic_sort_recursive - A function that recursively sorts a bitonic
  * sequence in the given order
  * @array: An array to be sorted
  * @low: Index of the subarray to be sorted
@@ -42,7 +42,7 @@ void bitonic_merge(int *array, size_t low, size_t count, int dir)
 	{
 		size_t b = count / 2;
 		size_t a;
-		
+
 	/* Iterate over the elements of the first subarray */
 	for (a = low; a < low + b; ++a)
 	{
@@ -50,6 +50,7 @@ void bitonic_merge(int *array, size_t low, size_t count, int dir)
 	if ((array[a] > array[a + b]) == dir)
 	{
 		int temp = array[a];
+
 		array[a] = array[a + b];
 		array[a + b] = temp;
 		}
@@ -60,7 +61,7 @@ void bitonic_merge(int *array, size_t low, size_t count, int dir)
 	}
 }
 /**
- * bitonic_sort - A function that sorts an array of integers 
+ * bitonic_sort - A function that sorts an array of integers
  * in ascending order using Bitonic sort algorithm.
  * @array: An array to be sorted
  * @size: A number of elements in the array (must be a power of 2)
